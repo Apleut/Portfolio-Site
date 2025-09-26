@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apleut - 3D Game Modeling Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #2d0066 50%, #7000BB 100%);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(112, 0, 187, 0.3);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            background: rgba(26, 0, 51, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(112, 0, 187, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #7000BB, #b347d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(112, 0, 187, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #b347d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(112, 0, 187, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(179, 71, 217, 0.8);
+            }
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #7000BB, #b347d9);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(112, 0, 187, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(112, 0, 187, 0.5);
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: rgba(26, 0, 51, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #b347d9;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .skill-card {
+            background: rgba(112, 0, 187, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(112, 0, 187, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            background: rgba(112, 0, 187, 0.3);
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 80px 0;
+        }
+
+        .portfolio h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: #b347d9;
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .work-item {
+            background: rgba(26, 0, 51, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(112, 0, 187, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .work-item:hover {
+            transform: translateY(-10px);
+            border-color: #7000BB;
+            box-shadow: 0 20px 40px rgba(112, 0, 187, 0.4);
+        }
+
+        .work-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1em;
+            position: relative;
+        }
+
+        .work-image.no-image {
+            background: linear-gradient(45deg, rgba(112, 0, 187, 0.3), rgba(179, 71, 217, 0.3));
+        }
+
+        .work-image.no-image::before {
+            content: '🎮';
+            font-size: 3em;
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .work-content {
+            padding: 25px;
+        }
+
+        .work-content h3 {
+            color: #b347d9;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: rgba(26, 0, 51, 0.8);
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #b347d9;
+        }
+
+        .discord-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, #7000BB, #b347d9);
+            padding: 20px 40px;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(112, 0, 187, 0.3);
+        }
+
+        .discord-contact:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(112, 0, 187, 0.5);
+        }
+
+        .discord-icon {
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7000BB;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .work-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">Apleut</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="floating">Apleut</h1>
+                <p>I am a 3D artist who learns and works quickly, getting projects done on time and up to standards.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div>
+                    <h2>About Me</h2>
+                    <p>I'm a passionate 3D modeling artist specializing in game development. As a quick learner with fresh perspectives, I've already contributed to several game projects, bringing creative visions to reality through detailed 3D models and environments.</p>
+                    <p>My journey in 3D modeling is driven by a love for interactive entertainment and the technical artistry behind game creation. I'm constantly evolving my skills and exploring new techniques to create compelling game assets.</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h3>3D Modeling</h3>
+                        <p>Character & environment modeling for games</p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Texturing</h3>
+                        <p>UV mapping and surface detailing</p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Game Assets</h3>
+                        <p>Optimized models for real-time rendering</p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Fast Learning</h3>
+                        <p>Quickly adapting to new tools and techniques</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2>My Work</h2>
+            <div class="work-grid">
+                <div class="work-item">
+                    <div class="work-image">
+                        <img src="https://i.imgur.com/PAvfF0V.jpeg" alt="Black Hole Facility" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="work-content">
+                        <h3>Black Hole Facility</h3>
+                        <p>I worked as the main 3D artist and modeler for the game Black Hole Facility in Rec Room, creating most of the game's models. However, as the game is currently unreleased, I am limited in what I can show here.</p>
+                    </div>
+                </div>
+                <div class="work-item">
+                    <div class="work-image">
+                        <img src="https://img.rec.net/8w6823koqy42wgmjnxh59amgo.jpg?width=1920" alt="Catterick Garrison HQ" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="work-content">
+                        <h3>Catterick Garrison HQ</h3>
+                        <p>I worked on commission to help make a few models for a small Rec Room clan headquarters room called Catterick Garrison HQ. For the project, I made several models including flags, terrain, and other environmental items.</p>
+                    </div>
+                </div>
+                <div class="work-item">
+                    <div class="work-image">
+                        <img src="https://cdn.discordapp.com/attachments/1370709549408976947/1420962919646232670/Vi17sNU.png?ex=68d7f718&is=68d6a598&hm=506c9bc16693865b9496850a384b66f92f47e61eabdd3d9d136c6c3644e42182" alt="P0 Character Model" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="work-content">
+                        <h3>Character Models</h3>
+                        <p>For the game Black Hole Facility, I made several character models, including the model for the game's main NPC, P0. I modeled, textured, and rigged the character for use within animations and cutscenes.</p>
+                    </div>
+                </div>
+                <div class="work-item">
+                    <div class="work-image">
+                        <img src="https://i.imgur.com/mXlVh7c.jpeg" alt="Donut Environment Asset" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="work-content">
+                        <h3>Environment Assets</h3>
+                        <p>I also made many of the environmental assets for Black Hole Facility, including this pile of donuts.</p>
+                    </div>
+                </div>
+                <div class="work-item">
+                    <div class="work-image">
+                        <img src="https://media.discordapp.net/attachments/1312558158866026526/1420605154658353323/1b3z9o7.png?ex=68d752a6&is=68d60126&hm=c1495e92269c64e59329345e5eb723c89c829c22556a9a135bd78a69f2a1acf1&=&width=1197&height=1351" alt="Murder Drones Avatar Item" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="work-content">
+                        <h3>Personal Practice</h3>
+                        <p>I have made many models for personal use, such as this Rec Room avatar item based off of the show Murder Drones.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Let's Work Together</h2>
+            <p style="margin-bottom: 30px; font-size: 1.1em; opacity: 0.9;">Ready to bring your game vision to life? Let's talk!</p>
+            <a href="https://discord.com/" class="discord-contact" onclick="copyDiscord()">
+                <div class="discord-icon">💬</div>
+                Contact me on Discord: Apleut
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 20 + 20) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Copy Discord username to clipboard
+        function copyDiscord() {
+            navigator.clipboard.writeText('Apleut').then(() => {
+                alert('Discord username "Apleut" copied to clipboard!');
+            });
+        }
+
+        // Add scroll effect to work items
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Set initial state for work items
+            document.querySelectorAll('.work-item').forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'all 0.6s ease';
+                item.style.transitionDelay = (index * 0.1) + 's';
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>
