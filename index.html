@@ -453,6 +453,15 @@
                         <p>I have made many models for personal use, such as this Rec Room avatar item based off of the show Murder Drones.</p>
                     </div>
                 </div>
+                <div class="work-item">
+                    <div class="work-image">
+                        <img src="https://github.com/Apleut/Portfolio-Site/blob/main/fItozcl.png?raw=true" alt="Rendering Example" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="work-content">
+                        <h3>Rendering</h3>
+                        <p>Using my models, I can also create high-quality professional renders with cinematic lighting elements, which is incredibly useful for advertisements.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -502,38 +511,25 @@
         // Copy Discord username to clipboard
         function copyDiscord() {
             navigator.clipboard.writeText('Apleut').then(() => {
-                alert('Discord username "Apleut" copied to clipboard!');
+                alert('Discord username copied: Apleut');
             });
         }
 
-        // Add scroll effect to work items
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // Reveal animations on scroll
+        const revealElements = document.querySelectorAll('.work-item, .skill-card');
+        window.addEventListener('scroll', () => {
+            const triggerBottom = window.innerHeight * 0.9;
+            revealElements.forEach((el, index) => {
+                const boxTop = el.getBoundingClientRect().top;
+                if (boxTop < triggerBottom) {
+                    el.style.opacity = 1;
+                    el.style.transform = 'translateY(0)';
+                    el.style.transition = `all 0.6s ease ${(index * 0.1)}s`;
                 }
             });
-        }, observerOptions);
-
-        // Initialize animations
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            
-            // Set initial state for work items
-            document.querySelectorAll('.work-item').forEach((item, index) => {
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(30px)';
-                item.style.transition = 'all 0.6s ease';
-                item.style.transitionDelay = (index * 0.1) + 's';
-                observer.observe(item);
-            });
         });
+
+        createParticles();
     </script>
 </body>
 </html>
